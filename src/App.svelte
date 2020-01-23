@@ -84,8 +84,8 @@
 <div class="row mb-2">
   {#if contactList.length > 0}
     {#each contactList as card (card.contact)}
-	<div class="col-sm-12 col-md-4 mb-2">
-      {#if card.name && card.contact}
+    {#if card.name && card.contact}
+	<div class="col-sm-12 col-md-4 mb-2">    
         <div class="card">
           <div class="card-body">
             <h3>{card.name}</h3>
@@ -100,8 +100,8 @@
             </div>
           </div>
         </div>
-      {/if}
 	  </div>
+     {/if}
     {/each}
   {:else}
     <p>add some cards....</p>
