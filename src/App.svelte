@@ -1,30 +1,110 @@
 <script>
-	export let name;
+  let name = "";
+  let contact = "";
+  let contactList = [];
+
+  const contactSave = event => {
+    event.preventDefault();
+    if (name !== "" && contact !== "") {
+      contactList = [
+        {
+          name,
+          contact
+        },
+        ...contactList
+      ];
+
+	  console.log(contactList);
+	  name = '';
+	  contact = '';
+    }
+  };
+
+  const removeCard = no => {
+	let newContactList = []
+	let newCard;
+	console.log(no);
+	contactList = contactList.map(item =>{
+		if(item.contact !== no){
+			return item
+		}
+		return {}
+	})
+	console.log(contactList)
+
+	// console.log(newContactList)
+  }
 </script>
 
-<main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-</main>
-
 <style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
+  .mycontainer {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-content: flex-start;
+    width: 30%;
+  }
+  .card {
+    width: 100%;
+  }
 
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
-	}
 </style>
+
+<div class="container m-auto mycontainer">
+  <div class="card mt-5">
+    <div class="card-header">Contact Form</div>
+    <div class="card-body">
+      <form>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Name</label>
+          <input
+            type="name"
+            class="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp"
+            bind:value={name} />
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Contact No.</label>
+          <input
+            type="contact"
+            class="form-control"
+            id="exampleInputPassword1"
+            bind:value={contact} />
+        </div>
+        <button type="submit" class="btn btn-primary" on:click={contactSave}>
+          Save
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+<hr />
+<div class="container">
+<div class="row mb-2">
+  {#if contactList.length > 0}
+    {#each contactList as card (card.contact)}
+	<div class="col-sm-12 col-md-4 mb-2">
+      {#if card.name && card.contact}
+        <div class="card">
+          <div class="card-body">
+            <h3>{card.name}</h3>
+            <h4>{card.contact}</h4>
+            <div class="text-right">
+              <button
+                type="button"
+                class="btn btn-danger"
+                on:click={removeCard.bind(this, card.contact)}>
+                Danger
+              </button>
+            </div>
+          </div>
+        </div>
+      {/if}
+	  </div>
+    {/each}
+  {:else}
+    <p>add some cards....</p>
+  {/if}
+</div>
+</div>
